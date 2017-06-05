@@ -1,0 +1,16 @@
+G:\tools\quote\main\obj\Debug\main.csprojResolveAssemblyReference.cache
+G:\tools\quote\main\obj\Debug\main.Properties.Resources.resources
+G:\tools\quote\main\obj\Debug\main.csproj.GenerateResource.Cache
+G:\tools\quote\bin\Debug\pickmoney.exe.config
+G:\tools\quote\bin\Debug\pickmoney.exe
+G:\tools\quote\bin\Debug\pickmoney.pdb
+G:\tools\quote\main\obj\Debug\pickmoney.exe
+G:\tools\quote\main\obj\Debug\pickmoney.pdb
+D:\future\AutoOrderC#\quote\bin\Debug\pickmoney.exe.config
+D:\future\AutoOrderC#\quote\main\obj\Debug\pickmoney.exe
+D:\future\AutoOrderC#\quote\main\obj\Debug\pickmoney.pdb
+D:\future\AutoOrderC#\quote\bin\Debug\pickmoney.exe
+D:\future\AutoOrderC#\quote\bin\Debug\pickmoney.pdb
+D:\future\AutoOrderC#\quote\main\obj\Debug\main.csprojResolveAssemblyReference.cache
+D:\future\AutoOrderC#\quote\main\obj\Debug\main.Properties.Resources.resources
+D:\future\AutoOrderC#\quote\main\obj\Debug\main.csproj.GenerateResource.Cache

@@ -27,13 +27,13 @@ namespace Comfup
             ID = id;
             Name = name;
         }
-        public uint LimitHigh()
-        {
-            return LimitAll(false);
-        }
-        public uint LimitLow()
+        public virtual uint LimitHigh()
         {
             return LimitAll(true);
+        }
+        public virtual uint LimitLow()
+        {
+            return LimitAll(false);
         }
         public uint LimitHighChange()
         {
@@ -41,34 +41,34 @@ namespace Comfup
         }
         public uint LimitLowChange()
         {
-            return LimitLow() - Reference;
+            return Reference - LimitLow();
         }
-        private uint GetChange()
+        private uint MaxChange()
         {
             return Convert.ToUInt32(Reference * Limits.LimitFloat);
         }
-        private uint LimitAll(bool isCeiling)
+        private uint LimitAll(bool isHigh)
         {
-            if (Reference <= 1000)
-                return isCeiling? GetCeiling(1) : GetFloor(1);
-            else if (Reference <= 5000)
-                return isCeiling ? GetCeiling(5) : GetFloor(5);
-            else if (Reference <= 10000)
-                return isCeiling ? GetCeiling(10) : GetFloor(10);
-            else if (Reference <= 50000)
-                return isCeiling ? GetCeiling(50) : GetFloor(50);
-            else if (Reference <= 100000)
-                return isCeiling ? GetCeiling(100) : GetFloor(100);
-            return isCeiling ? GetCeiling(500) : GetFloor(500);
+            uint LimitChange_ = isHigh ? Reference + MaxChange() : Reference - MaxChange();
+            if (LimitChange_ <= 1000)
+                return isHigh? GetFloor(LimitChange_, 1) : GetCeiling(LimitChange_, 1);
+            else if (LimitChange_ <= 5000)
+                return isHigh ? GetFloor(LimitChange_, 5) : GetCeiling(LimitChange_, 5);
+            else if (LimitChange_ <= 10000)
+                return isHigh ? GetFloor(LimitChange_, 10) : GetCeiling(LimitChange_, 10);
+            else if (LimitChange_ <= 50000)
+                return isHigh ? GetFloor(LimitChange_, 50) : GetCeiling(LimitChange_, 50);
+            else if (LimitChange_ <= 100000)
+                return isHigh ? GetFloor(LimitChange_, 100) : GetCeiling(LimitChange_, 100);
+            return isHigh ? GetFloor(LimitChange_, 500) : GetCeiling(LimitChange_, 500);
         }
-        protected internal uint GetFloor(uint TickInCent)
+        protected internal uint GetFloor(uint LimitChange, uint TickInCent)
         {
-            return Convert.ToUInt32((Reference + GetChange()) / TickInCent) * TickInCent;
+            return Convert.ToUInt32((Reference + MaxChange()) / TickInCent) * TickInCent;
         }
-        protected internal uint GetCeiling(uint TickInCent)
+        protected internal uint GetCeiling(uint LimitChange, uint TickInCent)
         {
-            uint RetChange_ = Reference + GetChange();
-            return (RetChange_ % TickInCent) == 0 ? RetChange_ : GetFloor(TickInCent) + TickInCent;
+            return (LimitChange % TickInCent) == 0 ? LimitChange : GetFloor(LimitChange, TickInCent) + TickInCent;
         }
     }
 }

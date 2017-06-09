@@ -26,36 +26,44 @@ namespace Comfup
         // 執行比例 0.001 = 1
         public uint UsageRatio;
         public uint StrikePrice;
+        private Stock TargetStock;
         public Warrant(string id, string name, uint refPrice) : base(id, name, refPrice) { }
         public Warrant(string id, string name) : base(id, name) { }
-        public uint LimitHigh(Stock stock)
+        public void SetStock(Stock stock) { this.TargetStock = stock; }
+        public override uint LimitHigh()
         {
-            uint change_ = stock.LimitHighChange();
-            if (Reference <= 1000)
-                return GetFloor(1);
-            else if (Reference <= 5000)
-                return GetFloor(5);
-            else if (Reference <= 10000)
-                return GetFloor(10);
-            else if (Reference <= 50000)
-                return GetFloor(50);
-            else if (Reference <= 100000)
-                return GetFloor(100);
-            return GetFloor(500);
+            return LimitAll(true);
         }
-        public uint LimitLow(Stock stock)
+        public override uint LimitLow()
         {
-            if (Reference <= 500)
-                return GetCeiling(1);
-            else if (Reference <= 1000)
-                return GetCeiling(5);
-            else if (Reference <= 5000)
-                return GetCeiling(10);
-            else if (Reference <= 10000)
-                return GetCeiling(50);
-            else if (Reference <= 50000)
-                return GetCeiling(100);
-            return GetCeiling(500);
+            return LimitAll(false);
+        }
+        private uint MaxChange(bool isHigh)
+        {
+            ulong StockChange_ = isHigh? TargetStock.LimitHighChange() : TargetStock.LimitLowChange();
+            return Convert.ToUInt32(StockChange_ * UsageRatio / Limits.PerStock);
+        }
+        private uint LimitAll(bool isHigh)
+        {
+            uint LimitChange_ = 0;
+            if (isHigh)
+                LimitChange_ = Reference + MaxChange(isHigh);
+            else
+            {
+                uint MinChange_ = MaxChange(isHigh);
+                LimitChange_ = (Reference <= MinChange_) ? Limits.MinPriceInCent: Reference - MinChange_;
+            }
+            if (LimitChange_ <= 500)
+                return LimitChange_;
+            else if (LimitChange_ <= 1000)
+                return isHigh ? GetFloor(LimitChange_, 5) : GetCeiling(LimitChange_, 5);
+            else if (LimitChange_ <= 5000)
+                return isHigh ? GetFloor(LimitChange_, 10) : GetCeiling(LimitChange_, 10);
+            else if (LimitChange_ <= 10000)
+                return isHigh ? GetFloor(LimitChange_, 50) : GetCeiling(LimitChange_, 50);
+            else if (LimitChange_ <= 50000)
+                return isHigh ? GetFloor(LimitChange_, 100) : GetCeiling(LimitChange_, 100);
+            return isHigh ? GetFloor(LimitChange_, 500) : GetCeiling(LimitChange_, 500);
         }
     }
 }

@@ -54,7 +54,18 @@ namespace Comfup
             }
         }
 
+        private void GenerateReport()
+        {
+            Report = new List<ResultRow>();
+            foreach (KeyValuePair<string, Warrant> warrantPair in WarrantsTable.Warrants)
+            {
+                Warrant warrant_ = warrantPair.Value;
+//                ResultRow row = new ResultRow();
+            }
+        }
+
         private StocksTable StocksTable;
         private WarrantsTable WarrantsTable;
+        private List<ResultRow> Report;
     }
 }

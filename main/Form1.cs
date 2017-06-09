@@ -343,6 +343,7 @@ namespace Comfup {
 
         private void button5_Click(object sender, EventArgs e) {
             #region Comfup Add
+            GenerateReport();
             #endregion
             PI30001 i30001 = new PI30001();
             i30001 = quoteCom.GetProductSTOCK(txtStkno.Text);

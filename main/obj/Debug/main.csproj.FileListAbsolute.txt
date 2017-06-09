@@ -14,3 +14,11 @@ D:\future\AutoOrderC#\quote\bin\Debug\pickmoney.pdb
 D:\future\AutoOrderC#\quote\main\obj\Debug\main.csprojResolveAssemblyReference.cache
 D:\future\AutoOrderC#\quote\main\obj\Debug\main.Properties.Resources.resources
 D:\future\AutoOrderC#\quote\main\obj\Debug\main.csproj.GenerateResource.Cache
+G:\tools\aquote\bin\Debug\pickmoney.exe.config
+G:\tools\aquote\main\obj\Debug\pickmoney.exe
+G:\tools\aquote\main\obj\Debug\pickmoney.pdb
+G:\tools\aquote\bin\Debug\pickmoney.exe
+G:\tools\aquote\bin\Debug\pickmoney.pdb
+G:\tools\aquote\main\obj\Debug\main.csprojResolveAssemblyReference.cache
+G:\tools\aquote\main\obj\Debug\main.Properties.Resources.resources
+G:\tools\aquote\main\obj\Debug\main.csproj.GenerateResource.Cache

@@ -19,6 +19,13 @@ namespace Comfup
 
             stocks.UpdateReferenceByMarket(twse, warrants.WarrantsAll);
             stocks.UpdateReferenceByMarket(otc, warrants.WarrantsAll);
+
+            foreach(KeyValuePair<string, Warrant> warrant in warrants.WarrantsAll)
+            {
+                Stock targetStock;
+                if (stocks.Stocks.TryGetValue(warrant.Value.TargetStockID, out targetStock))
+                    warrant.Value.SetStock(targetStock);
+            }
             return 0;
         }
     }

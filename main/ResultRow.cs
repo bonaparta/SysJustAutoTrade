@@ -8,47 +8,68 @@ namespace Comfup
 {
     class ResultRow
     {
-		ResultRow(string WaID, int ExpDays, uint Quo, uint Ref, uint StriPr, uint UsaRa, uint FiPa, string StID, string StNam,
+		public ResultRow(string WaID, int ExpDays, uint Quo, uint Lo, uint Ref, uint StriPr, uint ConRa, uint FiPa, string StID, string StNam,
                 uint SpotQuo, uint StRef)
 		{
             WarrantID = WaID;
             ExpiredDays = ExpDays;
             Quote = Quo;
-            ReferencePrice = Ref;
+            Low = Lo;
+            Reference = Ref;
             StrikePrice = StriPr;
-            UsageRatio = UsaRa;
+            ConvertibleRatio = ConRa;
             FixPercentReference = FiPa;
-            SpotID = StID;
-            SpotName = StNam;
-            SpotQuote = SpotQuo;
-            SpotReference = StRef;
+            UnderlyingID = StID;
+            UnderlyingName = StNam;
+            UnderlyingQuote = SpotQuo;
+            UnderlyingReference = StRef;
 
-            SpotLimitHigh = 0;
+            isCallnPut = true;
 		}
 		
         public string WarrantID { get; }
         public int ExpiredDays { get; }
-        public string SpotID { get; }
-        public string SpotName { get; }
-        public float UnchangeGain { get; }
+        public string UnderlyingID { get; }
+        public string UnderlyingName { get; }
+        public float UnchangeGain()
+        {
+            decimal NetIncome = Decimal.MinValue;
+            decimal gain = Decimal.MinValue;
+            decimal WarrantCost = Convert.ToDecimal(Quote) * Stock.kLotSize / ConvertibleRatio * Convert.ToDecimal(1 + Warrant.kHandleFee);
+            if (isCallnPut)
+            {
+                // [ 股票賣價(Revenue) - 權證價值(Expense) - 執行賣價(Cost) ](單股獲利)
+                NetIncome = Convert.ToDecimal(UnderlyingQuote) * (1 - Convert.ToDecimal(Stock.kTradeTax)) - WarrantCost -
+                    Convert.ToDecimal(StrikePrice) * Convert.ToDecimal((1 + Stock.kHandleFee));
+            }
+            else
+            {
+                // [ 執行賣價(Revenue) - 權證價值(Expense) - 股票賣價(Cost) ](單股獲利)
+                NetIncome = Convert.ToDecimal(StrikePrice) * (1 - Convert.ToDecimal(Stock.kTradeTax + Stock.kHandleFee)) - WarrantCost -
+                    Convert.ToDecimal(UnderlyingQuote);
+            }
+            gain = NetIncome / WarrantCost;
+            return (float)gain;
+        }
         public float LimitUpGain { get; }
         public float LimitDownGain { get; }
         // 報價 0.01 = 1
-        public uint Quote { get; set; }
+        public UInt64 Quote { get; set; }
+        public UInt64 Low { get; set; }
         public uint Volume { get; set; }
         public uint LimitLow { get; set; }
         public uint FixPercentReference { get; set; }
-		private uint ReferencePrice;
-        private uint StrikePrice { get; }
+		private UInt64 Reference;
+        private UInt64 StrikePrice { get; }
         // 執行比例 0.001 = 1
-        public uint UsageRatio { get; }
+        public UInt32 ConvertibleRatio { get; }
         public float leverage { get; }
         // 報價 0.01 = 1
-        public uint SpotQuote { get; }
-		private uint SpotLimitHigh { get; }
+        public UInt64 UnderlyingQuote { get; }
 		private uint TargetStockLimitLow { get; }
-        private uint SpotReference { get; }
+        private UInt64 UnderlyingReference { get; }
         // Up / Down // rise / fall // higher / lower
         public float PLDay { get; }
+        private bool isCallnPut;
     }
 }

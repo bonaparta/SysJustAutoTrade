@@ -20,6 +20,9 @@ namespace Comfup
     // #####T        受益證券
     class Warrant : Stock
     {
+        public new const double kTradeTax = 0.001;
+        public new const double kHandleFee = 0.001425;
+
         public int ExpiredDays;
         public string TargetStockID;
         public string TargetStockName;

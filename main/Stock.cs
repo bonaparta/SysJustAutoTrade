@@ -8,6 +8,15 @@ namespace Comfup
 {
     class Stock
     {
+        public const double kTradeTax = 0.003;
+        public const double kHandleFee = 0.001425;
+        public const double kShortFee = 0.0008;
+
+        public static readonly double kMaxUp = 1.1;
+        public static readonly double kMaxDown = 0.9;
+
+        public static readonly uint kLotSize = 1000;
+
         public string ID;
         public string Name;
         public uint Reference;
@@ -16,6 +25,7 @@ namespace Comfup
         public uint Low;
         public uint Close;
         public uint Volume;
+
         public Stock(string id, string name, uint refPrice)
         {
             ID = id;

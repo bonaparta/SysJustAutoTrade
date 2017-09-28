@@ -8,13 +8,14 @@ namespace Comfup
 {
     class ResultRow
     {
-		ResultRow(string WaID, int ExpDays, uint Quo, uint Ref, uint UsaRa, uint FiPa, string StID, string StNam,
+		ResultRow(string WaID, int ExpDays, uint Quo, uint Ref, uint StriPr, uint UsaRa, uint FiPa, string StID, string StNam,
                 uint SpotQuo, uint StRef)
 		{
             WarrantID = WaID;
             ExpiredDays = ExpDays;
             Quote = Quo;
             ReferencePrice = Ref;
+            StrikePrice = StriPr;
             UsageRatio = UsaRa;
             FixPercentReference = FiPa;
             SpotID = StID;
@@ -38,8 +39,9 @@ namespace Comfup
         public uint LimitLow { get; set; }
         public uint FixPercentReference { get; set; }
 		private uint ReferencePrice;
+        private uint StrikePrice { get; }
         // 執行比例 0.001 = 1
-        public uint UsageRatio;
+        public uint UsageRatio { get; }
         public float leverage { get; }
         // 報價 0.01 = 1
         public uint SpotQuote { get; }

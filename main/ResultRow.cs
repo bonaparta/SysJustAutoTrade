@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Comfup
 {
-    class ResultRow
+    public class ResultRow
     {
 		public ResultRow(string WaID, int ExpDays, uint Quo, uint Lo, uint Ref, uint StriPr, uint ConRa, uint FiPa, string StID, string StNam,
                 uint SpotQuo, uint StRef)

@@ -63,7 +63,10 @@ namespace Comfup
         private UInt64 StrikePrice { get; }
         // 執行比例 0.001 = 1
         public UInt32 ConvertibleRatio { get; }
-        public float leverage { get; }
+        public float Leverage()
+        {
+            return 0;
+        }
         // 報價 0.01 = 1
         public UInt64 UnderlyingQuote { get; }
 		private uint TargetStockLimitLow { get; }

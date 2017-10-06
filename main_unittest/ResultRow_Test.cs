@@ -10,10 +10,14 @@ namespace main_unittest
         [TestMethod]
         public void ResultRow_UnchangeGain()
         {
-            ResultRow rr = new ResultRow("064696", 120, 111, 110, 111, 1100000, 10, 10, "TSE.TW", "加權指數",
-                1029660, 1032492);
+            DateTime target = DateTime.Parse("2017/12/20");
+            DateTime today = DateTime.Today;
+            int days = (target - today).Days;
+            ResultRow rr = new ResultRow("061789", (target - DateTime.Today).Days, 520, 510, 520, 1050000, 20, 10, "TSE.TW", "加權指數",
+                1030000, 1029000);
+            float gain = rr.UnchangeGain();
 
-            Assert.AreEqual("064696", rr.WarrantID);
+            Assert.AreEqual("061789", rr.WarrantID);
         }
     }
 }

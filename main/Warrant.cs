@@ -41,6 +41,12 @@ namespace Comfup
         {
             return LimitAll(false);
         }
+
+        public static decimal GetWarrantCost(UInt64 quote, UInt32 convertibllRatio)
+        {
+            return Convert.ToDecimal(quote) * Stock.kLotSize / convertibllRatio * Convert.ToDecimal(1 + Warrant.kHandleFee);
+        }
+
         private uint MaxChange(bool isHigh)
         {
             ulong StockChange_ = isHigh? TargetStock.LimitHighChange() : TargetStock.LimitLowChange();

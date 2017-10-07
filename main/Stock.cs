@@ -15,7 +15,9 @@ namespace Comfup
         public static readonly double kMaxUp = 1.1;
         public static readonly double kMaxDown = 0.9;
 
-        public static readonly uint kLotSize = 1000;
+        public static readonly double kShortRate = 0.9;
+
+        public const UInt32 kLotSize = 1000;
 
         public string ID;
         public string Name;
@@ -53,6 +55,12 @@ namespace Comfup
         {
             return Reference - LimitLow();
         }
+
+        public static decimal GetStockCost(UInt64 quote)
+        {
+            return Convert.ToDecimal(quote) * Convert.ToDecimal(1 + Stock.kHandleFee);
+        }
+
         private uint MaxChange()
         {
             return Convert.ToUInt32(Reference * Limits.LimitFloat);

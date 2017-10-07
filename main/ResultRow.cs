@@ -24,7 +24,7 @@ namespace Comfup
             UnderlyingQuote = SpotQuo;
             UnderlyingReference = StRef;
 
-            isCallnPut = true;
+            isCallnPut = (WaID.EndsWith("P") || WaID.EndsWith("B")) ? false : true;
 		}
 		
         public string WarrantID { get; }
@@ -65,7 +65,17 @@ namespace Comfup
         public UInt32 ConvertibleRatio { get; }
         public float Leverage()
         {
-            return 0;
+            decimal warrantCost = Warrant.GetWarrantCost(Quote, ConvertibleRatio);
+            decimal stockCost = Decimal.MaxValue;
+            if (isCallnPut)
+            {
+                stockCost = UnderlyingQuote * Convert.ToDecimal(Stock.kShortRate + Stock.kTradeTax + Stock.kHandleFee + Stock.kShortFee);
+            }
+            else
+            {
+                stockCost = Stock.GetStockCost(UnderlyingQuote);
+            }
+            return (float)(stockCost / warrantCost);
         }
         // 報價 0.01 = 1
         public UInt64 UnderlyingQuote { get; }

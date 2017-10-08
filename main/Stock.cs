@@ -72,24 +72,52 @@ namespace Comfup
         {
             UInt64 LimitChange_ = isHigh ? Reference + MaxChange() : Reference - MaxChange();
             if (LimitChange_ <= 1000)
-                return isHigh? GetFloor(LimitChange_, 1) : GetCeiling(LimitChange_, 1);
+                return isHigh? FloorWithMinTick(LimitChange_, 1) : CeilingWithMinTick(LimitChange_, 1);
             else if (LimitChange_ <= 5000)
-                return isHigh ? GetFloor(LimitChange_, 5) : GetCeiling(LimitChange_, 5);
+                return isHigh ? FloorWithMinTick(LimitChange_, 5) : CeilingWithMinTick(LimitChange_, 5);
             else if (LimitChange_ <= 10000)
-                return isHigh ? GetFloor(LimitChange_, 10) : GetCeiling(LimitChange_, 10);
+                return isHigh ? FloorWithMinTick(LimitChange_, 10) : CeilingWithMinTick(LimitChange_, 10);
             else if (LimitChange_ <= 50000)
-                return isHigh ? GetFloor(LimitChange_, 50) : GetCeiling(LimitChange_, 50);
+                return isHigh ? FloorWithMinTick(LimitChange_, 50) : CeilingWithMinTick(LimitChange_, 50);
             else if (LimitChange_ <= 100000)
-                return isHigh ? GetFloor(LimitChange_, 100) : GetCeiling(LimitChange_, 100);
-            return isHigh ? GetFloor(LimitChange_, 500) : GetCeiling(LimitChange_, 500);
+                return isHigh ? FloorWithMinTick(LimitChange_, 100) : CeilingWithMinTick(LimitChange_, 100);
+            return isHigh ? FloorWithMinTick(LimitChange_, 500) : CeilingWithMinTick(LimitChange_, 500);
         }
-        public static UInt64 GetFloor(UInt64 LimitChange, UInt64 TickInCent)
+        public static UInt64 FloorWithMinTick(UInt64 LimitChange, UInt64 TickInCent)
         {
             return Convert.ToUInt64(LimitChange / TickInCent) * TickInCent;
         }
-        public static UInt64 GetCeiling(UInt64 LimitChange, UInt64 TickInCent)
+        public static UInt64 CeilingWithMinTick(UInt64 LimitChange, UInt64 TickInCent)
         {
-            return (LimitChange % TickInCent) == 0 ? LimitChange : GetFloor(LimitChange, TickInCent) + TickInCent;
+            return (LimitChange % TickInCent) == 0 ? LimitChange : FloorWithMinTick(LimitChange, TickInCent) + TickInCent;
+        }
+        public static UInt64 ValidFloor(UInt64 price)
+        {
+            if (price <= kTickLevel[0])
+                return price;
+            else if (price <= kTickLevel[1])
+                return Stock.FloorWithMinTick(price, kTickMin[1]);
+            else if (price <= kTickLevel[2])
+                return Stock.FloorWithMinTick(price, kTickMin[2]);
+            else if (price <= kTickLevel[3])
+                return Stock.FloorWithMinTick(price, kTickMin[3]);
+            else if (price <= kTickLevel[4])
+                return Stock.FloorWithMinTick(price, kTickMin[4]);
+            return Stock.FloorWithMinTick(price, kTickMin[5]);
+        }
+        public static UInt64 ValidCeiling(UInt64 price)
+        {
+            if (price <= kTickLevel[0])
+                return price;
+            else if (price <= kTickLevel[1])
+                return (price % kTickMin[1]) == 0 ? price : (price / kTickMin[1]) + kTickMin[1];
+            else if (price <= kTickLevel[2])
+                return (price % kTickMin[2]) == 0 ? price : (price / kTickMin[2]) + kTickMin[2];
+            else if (price <= kTickLevel[3])
+                return (price % kTickMin[3]) == 0 ? price : (price / kTickMin[3]) + kTickMin[3];
+            else if (price <= kTickLevel[4])
+                return (price % kTickMin[4]) == 0 ? price : (price / kTickMin[4]) + kTickMin[4];
+            return (price % kTickMin[5]) == 0 ? price : (price / kTickMin[5]) + kTickMin[5];
         }
     }
 }

@@ -45,25 +45,25 @@ namespace Comfup
             return LimitAll(false);
         }
 
-        public static decimal GetWarrantCost(UInt64 quote, UInt32 convertibllRatio)
+        public static decimal WarrantCost(UInt64 quote, UInt32 convertibllRatio)
         {
             return Convert.ToDecimal(quote) * Stock.kLotSize / convertibllRatio * Convert.ToDecimal(1 + Warrant.kHandleFee);
         }
-        public static UInt64 GetValidFloor(UInt64 price)
+        public static new UInt64 ValidFloor(UInt64 price)
         {
             if (price <= kTickLevel[0])
                 return price;
             else if (price <= kTickLevel[1])
-                return Stock.GetFloor(price, kTickMin[1]);
+                return Stock.FloorWithMinTick(price, kTickMin[1]);
             else if (price <= kTickLevel[2])
-                return Stock.GetFloor(price, kTickMin[2]);
+                return Stock.FloorWithMinTick(price, kTickMin[2]);
             else if (price <= kTickLevel[3])
-                return Stock.GetFloor(price, kTickMin[3]);
+                return Stock.FloorWithMinTick(price, kTickMin[3]);
             else if (price <= kTickLevel[4])
-                return Stock.GetFloor(price, kTickMin[4]);
-            return Stock.GetFloor(price, kTickMin[5]);
+                return Stock.FloorWithMinTick(price, kTickMin[4]);
+            return Stock.FloorWithMinTick(price, kTickMin[5]);
         }
-        public static UInt64 GetValidCeiling(UInt64 price)
+        public static new UInt64 ValidCeiling(UInt64 price)
         {
             if (price <= kTickLevel[0])
                 return price;
@@ -96,14 +96,14 @@ namespace Comfup
             if (LimitChange_ <= 500)
                 return LimitChange_;
             else if (LimitChange_ <= 1000)
-                return isHigh ? GetFloor(LimitChange_, 5) : GetCeiling(LimitChange_, 5);
+                return isHigh ? FloorWithMinTick(LimitChange_, 5) : CeilingWithMinTick(LimitChange_, 5);
             else if (LimitChange_ <= 5000)
-                return isHigh ? GetFloor(LimitChange_, 10) : GetCeiling(LimitChange_, 10);
+                return isHigh ? FloorWithMinTick(LimitChange_, 10) : CeilingWithMinTick(LimitChange_, 10);
             else if (LimitChange_ <= 10000)
-                return isHigh ? GetFloor(LimitChange_, 50) : GetCeiling(LimitChange_, 50);
+                return isHigh ? FloorWithMinTick(LimitChange_, 50) : CeilingWithMinTick(LimitChange_, 50);
             else if (LimitChange_ <= 50000)
-                return isHigh ? GetFloor(LimitChange_, 100) : GetCeiling(LimitChange_, 100);
-            return isHigh ? GetFloor(LimitChange_, 500) : GetCeiling(LimitChange_, 500);
+                return isHigh ? FloorWithMinTick(LimitChange_, 100) : CeilingWithMinTick(LimitChange_, 100);
+            return isHigh ? FloorWithMinTick(LimitChange_, 500) : CeilingWithMinTick(LimitChange_, 500);
         }
     }
 }

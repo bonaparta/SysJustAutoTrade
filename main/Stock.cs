@@ -19,6 +19,9 @@ namespace Comfup
 
         public const UInt32 kLotSize = 1000;
 
+        private static UInt64[] kTickLevel = { 1000, 5000, 10000, 50000, 100000 };
+        private static UInt64[] kTickMin = { 1, 5, 10, 50, 100, 500 };
+
         public string ID;
         public string Name;
         public uint Reference;
@@ -39,19 +42,19 @@ namespace Comfup
             ID = id;
             Name = name;
         }
-        public virtual uint LimitHigh()
+        public virtual UInt64 LimitHigh()
         {
             return LimitAll(true);
         }
-        public virtual uint LimitLow()
+        public virtual UInt64 LimitLow()
         {
             return LimitAll(false);
         }
-        public uint LimitHighChange()
+        public UInt64 LimitHighChange()
         {
             return LimitHigh() - Reference;
         }
-        public uint LimitLowChange()
+        public UInt64 LimitLowChange()
         {
             return Reference - LimitLow();
         }
@@ -65,9 +68,9 @@ namespace Comfup
         {
             return Convert.ToUInt32(Reference * Limits.LimitFloat);
         }
-        private uint LimitAll(bool isHigh)
+        private UInt64 LimitAll(bool isHigh)
         {
-            uint LimitChange_ = isHigh ? Reference + MaxChange() : Reference - MaxChange();
+            UInt64 LimitChange_ = isHigh ? Reference + MaxChange() : Reference - MaxChange();
             if (LimitChange_ <= 1000)
                 return isHigh? GetFloor(LimitChange_, 1) : GetCeiling(LimitChange_, 1);
             else if (LimitChange_ <= 5000)
@@ -80,11 +83,11 @@ namespace Comfup
                 return isHigh ? GetFloor(LimitChange_, 100) : GetCeiling(LimitChange_, 100);
             return isHigh ? GetFloor(LimitChange_, 500) : GetCeiling(LimitChange_, 500);
         }
-        protected internal uint GetFloor(uint LimitChange, uint TickInCent)
+        public static UInt64 GetFloor(UInt64 LimitChange, UInt64 TickInCent)
         {
-            return Convert.ToUInt32((Reference + MaxChange()) / TickInCent) * TickInCent;
+            return Convert.ToUInt64(LimitChange / TickInCent) * TickInCent;
         }
-        protected internal uint GetCeiling(uint LimitChange, uint TickInCent)
+        public static UInt64 GetCeiling(UInt64 LimitChange, UInt64 TickInCent)
         {
             return (LimitChange % TickInCent) == 0 ? LimitChange : GetFloor(LimitChange, TickInCent) + TickInCent;
         }

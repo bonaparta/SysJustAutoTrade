@@ -10,13 +10,10 @@ namespace main_unittest
         [TestMethod]
         public void ResultRow_UnchangeGain_Call()
         {
-            DateTime target = DateTime.Parse("2017/12/20");
-            DateTime today = DateTime.Today;
-            int days = (target - today).Days;
-            ResultRow rr = new ResultRow("061790", (target - DateTime.Today).Days,
-                570, 560, 570, 1000000, 10, 10, "TSE.TW", "加權指數", 1053274,
+            ResultRow rr = new ResultRow("061790", "2017/12/20",
+                570, 560, 570, 1000000, 10, "TSE.TW", "加權指數", 1053274,
                 1052237);
-            float gain = rr.UnchangeGain();
+            float gain = rr.GetUnchangeGain();
 
             Assert.AreEqual("061790", rr.WarrantID);
         }
@@ -24,13 +21,10 @@ namespace main_unittest
         [TestMethod]
         public void ResultRow_UnchangeGain_Put()
         {
-            DateTime target = DateTime.Parse("2018/07/03");
-            DateTime today = DateTime.Today;
-            int days = (target - today).Days;
-            ResultRow rr = new ResultRow("04144P", (target - DateTime.Today).Days,
-                220, 215, 215, 11448, 156, 10, "2317.TW", "鴻海", 10575,
+            ResultRow rr = new ResultRow("04144P", "2018/07/03",
+                220, 215, 215, 11448, 156, "2317.TW", "鴻海", 10575,
                 10650);
-            float gain = rr.UnchangeGain();
+            float gain = rr.GetUnchangeGain();
 
             Assert.AreEqual("04144P", rr.WarrantID);
         }

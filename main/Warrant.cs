@@ -23,6 +23,9 @@ namespace Comfup
         public new const double kTradeTax = 0.001;
         public new const double kHandleFee = 0.001425;
 
+        private static UInt64[] kTickLevel = { 500, 1000, 5000, 10000, 50000 };
+        private static UInt64[] kTickMin = { 1, 5, 10, 50, 100, 500 };
+
         public int ExpiredDays;
         public string TargetStockID;
         public string TargetStockName;
@@ -33,11 +36,11 @@ namespace Comfup
         public Warrant(string id, string name, uint refPrice) : base(id, name, refPrice) { }
         public Warrant(string id, string name) : base(id, name) { }
         public void SetStock(Stock stock) { this.TargetStock = stock; }
-        public override uint LimitHigh()
+        public override UInt64 LimitHigh()
         {
             return LimitAll(true);
         }
-        public override uint LimitLow()
+        public override UInt64 LimitLow()
         {
             return LimitAll(false);
         }
@@ -46,20 +49,48 @@ namespace Comfup
         {
             return Convert.ToDecimal(quote) * Stock.kLotSize / convertibllRatio * Convert.ToDecimal(1 + Warrant.kHandleFee);
         }
-
-        private uint MaxChange(bool isHigh)
+        public static UInt64 GetValidFloor(UInt64 price)
         {
-            ulong StockChange_ = isHigh? TargetStock.LimitHighChange() : TargetStock.LimitLowChange();
+            if (price <= kTickLevel[0])
+                return price;
+            else if (price <= kTickLevel[1])
+                return Stock.GetFloor(price, kTickMin[1]);
+            else if (price <= kTickLevel[2])
+                return Stock.GetFloor(price, kTickMin[2]);
+            else if (price <= kTickLevel[3])
+                return Stock.GetFloor(price, kTickMin[3]);
+            else if (price <= kTickLevel[4])
+                return Stock.GetFloor(price, kTickMin[4]);
+            return Stock.GetFloor(price, kTickMin[5]);
+        }
+        public static UInt64 GetValidCeiling(UInt64 price)
+        {
+            if (price <= kTickLevel[0])
+                return price;
+            else if (price <= kTickLevel[1])
+                return (price % kTickMin[1]) == 0 ? price : (price / kTickMin[1]) + kTickMin[1];
+            else if (price <= kTickLevel[2])
+                return (price % kTickMin[2]) == 0 ? price : (price / kTickMin[2]) + kTickMin[2];
+            else if (price <= kTickLevel[3])
+                return (price % kTickMin[3]) == 0 ? price : (price / kTickMin[3]) + kTickMin[3];
+            else if (price <= kTickLevel[4])
+                return (price % kTickMin[4]) == 0 ? price : (price / kTickMin[4]) + kTickMin[4];
+            return (price % kTickMin[5]) == 0 ? price : (price / kTickMin[5]) + kTickMin[5];
+        }
+
+        private UInt64 MaxChange(bool isHigh)
+        {
+            UInt64 StockChange_ = isHigh? TargetStock.LimitHighChange() : TargetStock.LimitLowChange();
             return Convert.ToUInt32(StockChange_ * UsageRatio / Limits.PerStock);
         }
-        private uint LimitAll(bool isHigh)
+        private UInt64 LimitAll(bool isHigh)
         {
-            uint LimitChange_ = 0;
+            UInt64 LimitChange_ = 0;
             if (isHigh)
                 LimitChange_ = Reference + MaxChange(isHigh);
             else
             {
-                uint MinChange_ = MaxChange(isHigh);
+                UInt64 MinChange_ = MaxChange(isHigh);
                 LimitChange_ = (Reference <= MinChange_) ? Limits.MinPriceInCent: Reference - MinChange_;
             }
             if (LimitChange_ <= 500)

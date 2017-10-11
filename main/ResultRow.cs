@@ -26,7 +26,7 @@ namespace Comfup
             UnderlyingQuote = underLyingClose;
             UnderlyingReference = underlyingOpen;
 
-            isCallnPut = (warrantID.EndsWith("P") || warrantID.EndsWith("B")) ? false : true;
+            isCallnPut = (warrantID.EndsWith("P") || warrantID.EndsWith("B") || warrantID.EndsWith("Y")) ? false : true;
 		}
 		
         public string WarrantID { get; }
@@ -41,6 +41,11 @@ namespace Comfup
         private UInt64 StrikePrice { get; }
         // 執行比例 0.001 = 1
         public UInt32 ConvertibleRatio { get; }
+        // 報價 0.01 = 1
+        public UInt64 UnderlyingQuote { get; }
+        public UInt64 UnderlyingReference { get; }
+        // Up / Down // rise / fall // higher / lower
+        public float PLDay { get; }
 
         public UInt64 GetLimitLow()
         {
@@ -110,10 +115,30 @@ namespace Comfup
             gain = NetIncome / WarrantCost;
             return (float)gain;
         }
+        public float GetArbitrageInterest()
+        {
+            // (warrants[wi].stockPrice / (sRealTrade + sTradeFee + sShortFee) - warrants[wi].buyingPrice - warrants[wi].exePrice * sHandleFee) * unit / warrants[wi].totalCost * 365 / warrants[wi].daysFromExpiration;
+            return 0;
+        }
         public UInt64 GetPercentGainCost(int percent2Gain)
         {
-            // TODO(Bona): count accurately
-            return Warrant.ValidFloor(Convert.ToUInt64(Convert.ToDecimal(Quote) * (1 + percent2Gain / 100.0M) / Convert.ToDecimal(1 + GetUnchangeGain())));
+            decimal warrantValue = Decimal.MinValue;
+            if (isCallnPut)
+            {
+                // [ 股票賣價(Revenue) - 執行賣價(Cost) ](單股獲利)
+                warrantValue = Convert.ToDecimal(UnderlyingQuote) * (1 - Convert.ToDecimal(Stock.kTradeTax)) -
+                    Convert.ToDecimal(StrikePrice) * Convert.ToDecimal((1 + Stock.kHandleFee));
+            }
+            else
+            {
+                // [ 執行賣價(Revenue) - 股票賣價(Cost) ](單股獲利)
+                warrantValue = Convert.ToDecimal(StrikePrice) * (1 - Convert.ToDecimal(Stock.kTradeTax + Stock.kHandleFee)) -
+                    Convert.ToDecimal(UnderlyingQuote);
+            }
+            if (warrantValue <= 0)
+                return 0;
+            // [ 權證價值(Cost) x 執行比例 x 預期報酬價(1 - %) ](單股獲利)
+            return Warrant.ValidFloor(Convert.ToUInt64(warrantValue / Convert.ToDecimal(1 + Warrant.kHandleFee) * ConvertibleRatio / Stock.kLotSize * (1M - Convert.ToDecimal(percent2Gain) / 100M)));
         }
         public float GetLeverage()
         {
@@ -129,12 +154,6 @@ namespace Comfup
             }
             return (float)(stockCost / warrantCost);
         }
-        // 報價 0.01 = 1
-        public UInt64 UnderlyingQuote { get; }
-		private uint TargetStockLimitLow { get; }
-        private UInt64 UnderlyingReference { get; }
-        // Up / Down // rise / fall // higher / lower
-        public float PLDay { get; }
         private bool isCallnPut;
     }
 }

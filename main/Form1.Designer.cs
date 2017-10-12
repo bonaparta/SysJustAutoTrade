@@ -239,7 +239,7 @@
             this.button11.Name = "button11";
             this.button11.Size = new System.Drawing.Size(82, 24);
             this.button11.TabIndex = 114;
-            this.button11.Text = "取消註冊";
+            this.button11.Text = "下單測試";
             this.button11.UseVisualStyleBackColor = true;
             this.button11.Click += new System.EventHandler(this.button11_Click);
             // 
@@ -346,7 +346,7 @@
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(79, 24);
             this.button5.TabIndex = 101;
-            this.button5.Text = "基本資料";
+            this.button5.Text = "產生報表";
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
@@ -489,7 +489,7 @@
             this.btnGetTRange.Name = "btnGetTRange";
             this.btnGetTRange.Size = new System.Drawing.Size(67, 25);
             this.btnGetTRange.TabIndex = 94;
-            this.btnGetTRange.Text = "最後價格";
+            this.btnGetTRange.Text = "更新即時資訊";
             this.btnGetTRange.UseVisualStyleBackColor = true;
             this.btnGetTRange.Click += new System.EventHandler(this.btnGetTRange_Click);
             // 
@@ -499,7 +499,7 @@
             this.btnGetT30.Name = "btnGetT30";
             this.btnGetT30.Size = new System.Drawing.Size(139, 24);
             this.btnGetT30.TabIndex = 93;
-            this.btnGetT30.Text = "下載上市商品檔";
+            this.btnGetT30.Text = "下載開盤資訊";
             this.btnGetT30.UseVisualStyleBackColor = true;
             this.btnGetT30.Click += new System.EventHandler(this.btnGetT30_Click);
             // 

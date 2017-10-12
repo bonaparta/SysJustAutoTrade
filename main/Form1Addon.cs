@@ -63,6 +63,9 @@ namespace Comfup
 //                ResultRow row = new ResultRow();
             }
         }
+        private void OrderAndCancel()
+        {
+        }
 
         private StocksTable StocksTable;
         private WarrantsTable WarrantsTable;

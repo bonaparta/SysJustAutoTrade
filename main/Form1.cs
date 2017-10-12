@@ -792,6 +792,7 @@ namespace Comfup {
         }
 
         private void button11_Click(object sender, EventArgs e) {
+            OrderAndCancel();
             quoteCom.UnSubQuotesAvgIndex();
         }
 

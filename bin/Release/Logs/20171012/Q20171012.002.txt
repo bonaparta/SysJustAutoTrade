@@ -1,0 +1,16 @@
+[13:19:05:454] Created By pickmoney.vshost
+[13:19:05:454] PushClient[201601301]
+[13:19:05:455] QuoteCom 元件啟動 [20160311]
+[13:19:08:622] P:Send:SubscribeUN00089
+[13:19:08:622] Q:MT_CONNECT_READY quoteapi.kgi.com.tw:443
+[13:19:08:636] P:Send:1502
+[13:19:08:637] P:HBThread Start
+[13:19:08:643] P:FeedPkgThreadHB Start
+[13:19:08:643] P:MT_SUBSCRIBE Msg = UN00089
+[13:19:08:781] P:Send:SubscribeNoticeWebQ
+[13:19:08:781] P:Send:SubscribeTW.INFO
+[13:19:08:781] QuoteCom Login:[E123308040] LOGIN_READY
+[13:19:08:781] 可註冊數[1503]:50
+[13:19:08:802] 
+[13:19:08:802] P:MT_SUBSCRIBE Msg = NoticeWebQ
+[13:19:08:806] P:MT_SUBSCRIBE Msg = TW.INFO

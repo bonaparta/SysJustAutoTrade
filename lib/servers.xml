@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Servers>
+  <Category Name="ITRADE" ItemCount="7">
+    <Item Name="ITRADE014" host="211.22.59.14" port="443" cc="0" available="Y"/>
+    <Item Name="ITRADE013" host="211.22.59.13" port="443" cc="0" available="Y"/>
+  </Category>
+  <Category Name="IQUOTE" ItemCount="7">
+    <Item Name="IQUOTE012" host="211.22.59.12" port="443" cc="0" available="Y"/>
+    <Item Name="IQUOTE011" host="211.22.59.11" port="443" cc="0" available="Y"/>
+  </Category>
+</Servers>

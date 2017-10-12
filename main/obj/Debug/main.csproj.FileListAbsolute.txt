@@ -22,3 +22,4 @@ G:\tools\aquote\bin\Debug\pickmoney.pdb
 G:\tools\aquote\main\obj\Debug\main.csprojResolveAssemblyReference.cache
 G:\tools\aquote\main\obj\Debug\main.Properties.Resources.resources
 G:\tools\aquote\main\obj\Debug\main.csproj.GenerateResource.Cache
+G:\tools\aquote\main\obj\Debug\Comfup.Form1.resources

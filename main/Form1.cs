@@ -519,7 +519,37 @@ namespace Comfup {
 //            labelConnQuality.Text = "[" + ConnQuality + "]";
         }
         #endregion
-        private void button3_Click(object sender, EventArgs e) {
+        private void SetLoginInfo()
+        {
+            tfcom.ServerHost = "tradeapi.kgi.com.tw";
+            tfcom.ServerPort = 443;
+            //*********Auto Reconnect Push2 *************
+/*            if (cbConn2Push.Checked)
+            {
+                tfcom.AutoRedirectPushLogin = true;
+                tfcom.ServerHost2 = cbHost2.Text;
+                ushort.TryParse(cbPort2.Text, out tfcom.ServerPort2);
+                tfcom.LoginTimeout = 8000;
+            }
+*/            //************************
+            tfcom.AutoRetriveProductInfo = false;  //是否載入商品檔
+            tfcom.AutoSubReport = false;   //是否回補回報&註冊即時回報(國內)
+            tfcom.AutoSubReportForeign = false;//是否回補回報&註冊即時回報(國外)
+
+            //2015.7 原來註冊回報一定要回補回報, 原改為可擇一 ;
+            //若AutoRecoverReportSecurity 未特別設定時, 則預設值等於 AutoSubReportSecurity
+//            tfcom.AutoSubReportSecurity = cbSubReportSecu.Checked;  //是否回補回報&註冊即時回報(證券)
+//            tfcom.AutoRecoverReportSecurity = cbRecoverSecu.Checked;
+        }
+        private void btnLogin_Click(object sender, EventArgs e)
+        {
+            SetLoginInfo();
+            tfcom.ShowLogin();       //顯示登入視窗
+        }
+        private void button3_Click(object sender, EventArgs e)
+        {
+            #region Comfup Add
+            #endregion
             quoteCom.Logout();
         }
 
@@ -791,8 +821,11 @@ namespace Comfup {
                 AddInfo(quoteCom.GetSubQuoteMsg(istatus));
         }
 
-        private void button11_Click(object sender, EventArgs e) {
+        private void button11_Click(object sender, EventArgs e)
+        {
+            #region Comfup Add
             OrderAndCancel();
+            #endregion
             quoteCom.UnSubQuotesAvgIndex();
         }
 

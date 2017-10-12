@@ -89,13 +89,13 @@
             this.btnWStk = new System.Windows.Forms.Button();
             this.btnGetWarrInfo = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.lbETF = new System.Windows.Forms.ListBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.tbetfcode = new System.Windows.Forms.TextBox();
             this.button12 = new System.Windows.Forms.Button();
             this.bnETF = new System.Windows.Forms.Button();
             this.txtMsg = new System.Windows.Forms.TextBox();
-            this.lbETF = new System.Windows.Forms.ListBox();
             this.panel1.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tabPage5.SuspendLayout();
@@ -107,11 +107,11 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(229, 423);
+            this.button3.Location = new System.Drawing.Point(229, 422);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(52, 24);
+            this.button3.Size = new System.Drawing.Size(63, 24);
             this.button3.TabIndex = 10;
-            this.button3.Text = "離線";
+            this.button3.Text = "下單登入";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
@@ -791,6 +791,17 @@
             this.tabPage2.Text = "成份股查詢";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // lbETF
+            // 
+            this.lbETF.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lbETF.FormattingEnabled = true;
+            this.lbETF.HorizontalScrollbar = true;
+            this.lbETF.ItemHeight = 12;
+            this.lbETF.Location = new System.Drawing.Point(3, 131);
+            this.lbETF.Name = "lbETF";
+            this.lbETF.Size = new System.Drawing.Size(331, 424);
+            this.lbETF.TabIndex = 114;
+            // 
             // label9
             // 
             this.label9.AutoSize = true;
@@ -848,17 +859,6 @@
             this.txtMsg.Size = new System.Drawing.Size(401, 584);
             this.txtMsg.TabIndex = 71;
             this.txtMsg.TabStop = false;
-            // 
-            // lbETF
-            // 
-            this.lbETF.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.lbETF.FormattingEnabled = true;
-            this.lbETF.HorizontalScrollbar = true;
-            this.lbETF.ItemHeight = 12;
-            this.lbETF.Location = new System.Drawing.Point(3, 131);
-            this.lbETF.Name = "lbETF";
-            this.lbETF.Size = new System.Drawing.Size(331, 424);
-            this.lbETF.TabIndex = 114;
             // 
             // Form1
             // 
